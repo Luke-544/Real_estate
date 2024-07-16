@@ -1,20 +1,45 @@
 <?php
 
-use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
+// Route to the Home view
 Route::get('/', function () {
-    return view('welcome');
-});
+    return view('home');
+})->name('home');
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+// Route to the Purchase view
+Route::get('/purchase', function () {
+    return view('purchase');
+})->name('purchase');
 
-Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-});
+// Route to the Log In view
+Route::get('/login', function () {
+    return view('login');
+})->name('login');
 
-require __DIR__.'/auth.php';
+// Route to the Sign Up view
+Route::get('/sign-up', function () {
+    return view('sign-up');
+})->name('sign-up');
+
+// Route to the Buy view
+Route::get('/buy', function () {
+    return view('buy');
+})->name('buy');
+
+// Example of a post route for handling form submissions (Buy Form)
+Route::post('/purchase/confirmation', [App\Http\Controllers\PurchaseController::class, 'confirmPurchase'])
+    ->name('purchase.confirmation');
+
+// Example of a post route for handling form submissions (Sign Up Form)
+Route::post('/sign-up', [App\Http\Controllers\SignUpController::class, 'register'])
+    ->name('signup.register');
+
+// Example of a post route for handling form submissions (Log In Form)
+Route::post('/login', [App\Http\Controllers\LoginController::class, 'authenticate'])
+    ->name('login.authenticate');
+
+// Example of a post route for handling form submissions (Buy Form)
+Route::post('/buy', [App\Http\Controllers\BuyController::class, 'processPayment'])
+    ->name('buy.process');
+
